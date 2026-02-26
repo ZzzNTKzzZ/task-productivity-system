@@ -25,7 +25,7 @@ export class AuthService {
         password: hashedPassword,
       },
     });
-
+    
     return user
   }
 
@@ -49,6 +49,8 @@ export class AuthService {
         { expiresIn: "1d"}
     )
 
-    return { user, token}
+
+    return { user, token }
   }
+
 }

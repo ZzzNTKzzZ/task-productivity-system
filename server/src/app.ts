@@ -1,5 +1,6 @@
 import dotenv from "dotenv"
 import express from "express";
+import routes from "./routes/index.js";
 dotenv.config();
 
 const PORT = process.env.PORT;
@@ -11,6 +12,8 @@ app.get("/", async (req, res) => {
   res.send("API is working");
 });
 
+
+routes(app)
 app.listen(PORT, () => {
   console.log(`Server running on port http://localhost:${PORT}`);
 });
