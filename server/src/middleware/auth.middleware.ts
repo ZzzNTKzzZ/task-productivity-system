@@ -6,9 +6,9 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
 
     if(!authHeader) return res.status(401).json({ message: "No token provider"})
 
-    const token = authHeader.split(" ")[1] || " ";
+    const [, token] = authHeader.split(" ");
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET!) as MyJwtPayload
+        const decoded = jwt.verify(token!, process.env.JWT_SECRET!) as MyJwtPayload
         req.user = decoded;
         next();
     } catch (error) {
