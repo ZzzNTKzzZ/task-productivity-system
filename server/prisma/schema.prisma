@@ -15,7 +15,7 @@ datasource db {
 
 model User {
   id       String @id @default(uuid())
-  name     String 
+  username     String 
   email    String @unique
   password String
   role     ROLE   @default(USER)
@@ -24,7 +24,7 @@ model User {
 
 model Task {
   id        String         @id @default(uuid())
-  name      String
+  username      String
   date      DateTime
   priority  PRIORITY_LEVEL
   status    STATUS         @default(TODO)

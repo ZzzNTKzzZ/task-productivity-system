@@ -1,15 +1,11 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import { prisma } from "../lib/prisma.js";
-import dotenv from "dotenv"
-interface RegisterInput {
-  name: string | null;
-  email: string;
-  password: string;
-}
+import type { CreateUserInputRegister } from "../types/user.js";
+
 
 export class AuthService {
-  static async register(data: RegisterInput) {
+  static async register(data: CreateUserInputRegister) {
     const existingUser = await prisma.user.findUnique({
       where: { email: data.email },
     });
@@ -17,10 +13,10 @@ export class AuthService {
     if (existingUser) throw new Error("User already exists");
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    const name = (data?.name ?? data?.email?.split("@")[0]) || "User";
+    const username = (data?.username ?? data?.email?.split("@")[0]) || "User";
     const user = await prisma.user.create({
       data: {
-        name: name,
+        username: username,
         email: data.email,
         password: hashedPassword,
       },
@@ -29,7 +25,7 @@ export class AuthService {
     return user
   }
 
-  static async login(data: RegisterInput) {
+  static async login(data: CreateUserInputRegister) {
     const user = await prisma.user.findUnique({
         where: { email : data.email}
     })
